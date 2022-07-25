@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'freertos'
+project = 'ryan_tech'
 copyright = '2022, Ryan'
 author = 'Ryan'
 release = 'v1.0'
@@ -14,10 +14,7 @@ release = 'v1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = [
-    'recommonmark',
-    'sphinx_markdown_tables'
-]
+extensions = []
 
 templates_path = ['_templates']
 exclude_patterns = []
