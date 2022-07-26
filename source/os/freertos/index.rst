@@ -2,7 +2,8 @@ FreeRTOS
 ====================================
 
 .. toctree::
-   :maxdepth: 1
-   
+   :maxdepth: 2
+   :numbered:
+
    任务 <task/index>
    队列 <queue/index>
