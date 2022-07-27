@@ -2,7 +2,7 @@ OS
 ====================================
 
 .. toctree::
-   :maxdepth: 1
-   
+   :maxdepth: 2
+
    FreeRTOS <freertos/index>
    RT-Thread <rt_thread/index>

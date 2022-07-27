@@ -54,6 +54,13 @@
 队列数据结构
 =================
 
+队列涉及：
+ - 数据的读写：环形buffer
+ - 任务的休眠唤醒：必然有2个链表( ``xTasksWaitingToSend`` 哪些任务在等待空间， ``xTasksWaitingToReceive`` 哪些任务在等待数据)
+ - 数据数量的统计
+
+队列的结构体如下：
+
 .. code-block:: c
     :linenos:
 
@@ -107,6 +114,25 @@
 
 创建队列
 ==============
+
+::
+
+            不同的创建函数                                                                                       对应的参数
+    ----------------------------------                都是调用这个函数                -------------------------------------------------------
+    | xQueueCreate                   |   ----------------------------------------   | (user_param, user_param, queueQUEUE_TYPE_BASE)       |
+    | xQueueCreateSet                |   | QueueHandle_t xQueueGenericCreate(   |   | (user_param, sizeof(Queue_t *), queueQUEUE_TYPE_SET) |
+    | xSemaphoreCreateCounting       |   |     const UBaseType_t uxQueueLength, |   | (user_param, 0, queueQUEUE_TYPE_COUNTING_SEMAPHORE)  |
+    | xSemaphoreCreateBinary         |-->|     const UBaseType_t uxItemSize,    |-->| (1, 0, queueQUEUE_TYPE_BINARY_SEMAPHORE)             |
+    | xSemaphoreCreateMutex          |   |     const uint8_t ucQueueType )      |   | (1, 0, queueQUEUE_TYPE_MUTEX)                        |
+    | xSemaphoreCreateRecursiveMutex |   ----------------------------------------   | (1, 0, queueQUEUE_TYPE_RECURSIVE_MUTEX)              |
+    ----------------------------------                                              --------------------------------------------------------
+
+理解了队列之后，对其他的信号量、互斥量，也基本理解的差不多了。
+
+ - 队列：涉及数据的读写、数据数目的增减
+ - 信号量/互斥量：不涉及数据的读写，只涉及数目的增减
+
+所以，从这个角度看，我们可以使用 ``generic queue`` 来统一队列、信号量、互斥量。
 
 ----------------
 xQueueCreate
@@ -465,6 +491,8 @@ xQueueGenericSend
                     task is already in a ready list before it yields - in which
                     case the yield will not cause a context switch unless there
                     is also a higher priority task in the pending ready list. */
+                    /* 重新开启调度器后，从C语言角度看，在这2个函数之一里面就出不来了
+                    直到被唤醒之后，从这里继续执行，再次执行for循环 */
                     if( xTaskResumeAll() == pdFALSE )
                     {
                         portYIELD_WITHIN_API();
