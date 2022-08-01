@@ -12,5 +12,6 @@ ryan_tech
    driver <driver/index>
    arch <arch/index>
    build <build/index>
+   communications <communications/index>
    net <net/index>
    wifi <wifi/index>
