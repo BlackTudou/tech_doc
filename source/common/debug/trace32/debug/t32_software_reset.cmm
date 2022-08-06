@@ -1,0 +1,4 @@
+Data.Set SD:0x802040 %LE %Long 0
+Data.Set SD:0x802044 %LE %Long 0
+Register.Set CPSR 0x13
+Register.Set PC 0
