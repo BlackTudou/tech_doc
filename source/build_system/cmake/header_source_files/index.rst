@@ -33,7 +33,7 @@ for example, the add_executable() function.
 
     add_executable(${PROJECT_NAME} ${SOURCES})
 
-CMAKE 文件路径属性
+CMAKE 文件路径
 ==================
 
 CMake syntax specifies a number of variables which can be used to help find useful directories in your project or source tree. Some of these include:

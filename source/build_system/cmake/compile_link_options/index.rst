@@ -15,6 +15,7 @@ Add options to the compilation of source files.
 
     1. 编译期间的选项
     2. 对所有的源文件生效 (.c .S 都会生效)
+    3. 通过 ``add_compile_options`` 设置编译选项，注意这里的set后面没有引号。
 
 --------------------------
 add_compile_definitions
@@ -52,6 +53,8 @@ Add options to the **link step** for an executable, shared library or module lib
 
 CMAKE_<LANG>_FLAGS
 ===================
+
+CMAKE_EXE_LINKER_FLAGS //TOOD
 
 Flags for all build types.
 
@@ -118,7 +121,7 @@ This is initialized for each language from environment variables:
 可以看到当我们只设置 ``CMAKE_C_FLAGS``时：
  1. startup.S 对于该文件编译时并未加上 ``-mcpu=cortex-m33+nodsp`` 的编译选项
  2. main.c 加上了 ``-mcpu=cortex-m33+nodsp`` 的编译选项
- 3. Linking 时 加上了 ``-mcpu=cortex-m33+nodsp`` 的编译选项
+ 3. Linking 时 加上了 ``-mcpu=cortex-m33+nodsp`` 的编译选项。
 
 由此，验证上面我们说的：
  1. ``CMAKE_C_FLAGS`` 只针对 ``.c`` 文件生效，对于 ``.s`` 不生效
@@ -145,3 +148,22 @@ This is initialized for each language from environment variables:
     make[1]: Leaving directory '/home/ryan/work/cmake_doc/cmake-examples/01-basic/A-hello-cmake/build'
     /usr/bin/cmake -E cmake_progress_start /home/ryan/work/cmake_doc/cmake-examples/01-basic/A-hello-cmake/build/CMakeFiles 0
 
+
+CMAKE_C_FLAGS VS add_compile_options
+======================================
+
+----------------
+CMAKE_C_FLAGS
+----------------
+
+ 1. 仅针对 ``.c`` 文件生效，对 ``.s`` 不生效
+ 2. 编译与链接阶段都会加上该选项
+ 3. string 形式
+
+--------------------
+add_compile_options
+--------------------
+
+ 1. 对所有的源文件生效 (.c .S 都会生效)
+ 2. 仅仅是编译期间的选项，链接期间不会生效
+ 3. 非 string 形式
