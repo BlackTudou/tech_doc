@@ -21,7 +21,7 @@ Add options to the compilation of source files.
 add_compile_definitions
 --------------------------
 
-Add preprocessor definitions to the compilation of source files. 相当于 ``-DCONFIG_CMAKE=1`` 选项。
+Add preprocessor definitions to the compilation of source files. 相当于 ``-DXXXXXX=1`` 选项。
 
 ---------------------------
 target_compile_definitions
@@ -50,6 +50,13 @@ target_link_options
 --------------------
 
 Add options to the **link step** for an executable, shared library or module library target.
+
+设置armino组件链接脚本
+
+.. code-block:: cmake
+
+    set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/CMSIS_5/Device/ArmChina/STAR/Source/GCC/gcc_arm.ld)
+    target_link_options(${COMPONENT_LIB} INTERFACE -T ${LINKER_SCRIPT})
 
 CMAKE_<LANG>_FLAGS
 ===================

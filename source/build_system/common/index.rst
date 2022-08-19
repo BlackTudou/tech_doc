@@ -311,3 +311,19 @@ linker script
 
 就是用于告诉链接器如何把输入文件内的各个段（section）放到输出文件中，并控制输出文件中的各个段在此程序运行时的地址空间布局。
 一个程序由多个段组成，那么这些段是如何在文件中存放的，以及是如何加载到内存的相应位置进行执行的呢，这个就是通过连接脚本进行控制的。
+
+
+https://sourceware.org/binutils/docs/ld/Scripts.html
+
+
+
+
+
+程序编译链接加载
+=================
+
+编译选项
+========
+
+SET(CMAKE_CXX_FLAGS_DEBUG "$ENV{CXXFLAGS} -O0 -Wall -g -ggdb")
+SET(CMAKE_CXX_FLAGS_RELEASE "$ENV{CXXFLAGS} -O3 -Wall")
