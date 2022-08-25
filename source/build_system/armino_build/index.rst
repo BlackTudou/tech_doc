@@ -75,5 +75,99 @@ armino 添加 arch cm33
 
    检查 链接脚本 bk7236_bsp.ld， ``ENTRY(_vector_start);``
 
+在 armino 的链接脚本中使用宏定义
+====================================
 
-cd .
+------------------------------
+在链接脚本使用宏定义
+------------------------------
+
+问题：需要在ld script中使用类似C语言的define等宏定义来做一些判断和替换。如果不做任何处理，直接在ld文件中 ``#include "xxxx.h"`` ,会报如下错误：
+
+.. code-block:: shell
+
+    ignoring invalid character `#' in expression
+    syntax error
+
+解决思路：
+
+.c中为什么能用define等宏，这个是在预处理阶段完成的，因此基本思路是用gcc的预处理将ld文件当做.c文件来处理，实现宏替换。参考命令如下：
+
+.. code-block:: shell
+
+    arm-none-eabi-gcc -E -P - < bk7236_bsp.ld -o bk7236_bsp_out.ld -I ../../../include/ -I ../../../build/app/bk7236/config/
+
+-E Preprocess only; do not compile, assemble or link
+
+-P
+
+----------------------------
+更改armino的链接脚本
+----------------------------
+
+默认使用的是bk7236_bsp.ld，想换成bk7236_out.ld，因为链接脚本最终是通过-T选项链接上的，因此grep "-T" 一下，然后顺藤摸瓜往上找下。
+
+   原先在 middleware/soc/bk7236/CMakeLists.txt 里面的 target_linker_script_judge() 选择链接脚本，
+   最终是调用 ``target_linker_script`` 来实现，通过如下代码可以看到最终是调用 ``target_link_libraries("${target}" "${deptype}" "-T ${scriptname}")``。
+   通过 ``-T`` 选项选择链接脚本。
+
+.. code-block:: cmake
+    :linenos:
+
+    function(target_linker_script target deptype scriptfiles)
+        cmake_parse_arguments(_ "" "PROCESS" "" ${ARGN})
+        foreach(scriptfile ${scriptfiles})
+            get_filename_component(abs_script "${scriptfile}" ABSOLUTE)
+            LOGI("Adding linker script ${abs_script}")
+
+            if(__PROCESS)
+                get_filename_component(output "${__PROCESS}" ABSOLUTE)
+                __ldgen_process_template(${abs_script} ${output})
+                set(abs_script ${output})
+            endif()
+
+            get_filename_component(search_dir "${abs_script}" DIRECTORY)
+            get_filename_component(scriptname "${abs_script}" NAME)
+
+            if(deptype STREQUAL INTERFACE OR deptype STREQUAL PUBLIC)
+                get_target_property(link_libraries "${target}" INTERFACE_LINK_LIBRARIES)
+            else()
+                get_target_property(link_libraries "${target}" LINK_LIBRARIES)
+            endif()
+
+            list(FIND "${link_libraries}" "-L ${search_dir}" found_search_dir)
+            if(found_search_dir EQUAL "-1")  # not already added as a search path
+                target_link_libraries("${target}" "${deptype}" "-L ${search_dir}")
+            endif()
+
+            target_link_libraries("${target}" "${deptype}" "-T ${scriptname}")
+
+            # Note: In BEKEN-ARMINO, most targets are libraries and libary LINK_DEPENDS don't propagate to
+            # executable(s) the library is linked to. Attach manually to executable once it is known.
+            #
+            # Property INTERFACE_LINK_DEPENDS is available in CMake 3.13 which should propagate link
+            # dependencies.
+            if(NOT __PROCESS)
+                armino_build_set_property(__LINK_DEPENDS ${abs_script} APPEND)
+            endif()
+        endforeach()
+    endfunction()
+
+最终middleware/soc/bk7236/CMakeLists.txt修改如下：
+
+.. code-block:: cmake
+    :linenos:
+
+    set(LD_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+    add_custom_command(
+        OUTPUT ${target}_out.ld
+        COMMAND "${CMAKE_C_COMPILER}" -P -x c -E - < ${LD_DIR}/${target}_bsp.ld -o ${target}_out.ld -I ${armino_path}/include/ -I ${config_dir}
+        MAIN_DEPENDENCY ${LD_DIR}/${target}.ld ${sdkconfig_header}
+        COMMENT "Generating linker script..."
+        VERBATIM)
+
+    add_custom_target(${target}_linker_script DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${target}_out.ld)
+    add_dependencies(${COMPONENT_LIB} ${target}_linker_script)
+
+    target_linker_script(${COMPONENT_LIB} INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/${target}_out.ld")
