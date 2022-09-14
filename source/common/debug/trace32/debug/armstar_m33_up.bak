@@ -1,0 +1,103 @@
+; --------------------------------------------------------------------------------
+; @Title: Example Script File for ARM Development Board with ARM940T Pid Header Card
+; @Description:
+;   Example script file for ARM development board (HBI-0011B) with ARM940T pid
+; @Author: wzl
+; @Board: bk7251
+; @Chip: ARM968ejs
+; @Copyright: (C) 2000-2025 Beken Corp, licensed for use with TRACE32(R) only
+; --------------------------------------------------------------------------------
+
+;WinCLEAR
+
+;Refresh when printing
+SCREEN.ON
+
+; Debugger Reset
+;WinPAGE.RESet
+;AREA.RESet
+WinPOS 0. 24. 75. 8.
+AREA.view
+
+PRINT "resetting..."
+sYmbol.RESet
+SYStem.RESet
+TASK.RESet
+Break.Delete
+
+;The mapping system is reset to its default state
+MAP.RESet
+
+;Reset MMU configuration
+;TRANSlation.RESet
+
+// select CPU type:CortexM33F
+SYStem.CPU STAR
+
+// set endianism according to the selection
+SYStem.Option BigEndian OFF
+
+;Disable interrupts while single stepping
+SYStem.Option IMASKASM ON
+
+;Disable interrupts while HLL single stepping
+SYStem.Option IMASKHLL ON
+SYStem.JtagClock CTCK 500kHz
+
+SYStem.CONFIG ETM Base E:0xE0041000
+SYStem.CONFIG ITM Base E:0xE0000000
+SYStem.CONFIG TPIU Base E:0xE0040000
+SYStem.CONFIG.CTI Base E:0xE0042000
+
+;SYStem.CONFIG MEMORYACCESSPORT 0
+;system.CONFIG.swdptargetsel 0
+
+SYStem.CONFIG MEMORYACCESSPORT 0
+system.CONFIG.ahbaccessport 0.
+SYStem.CONFIG.DEBUGPORTTYPE SWD
+system.config.swdptargetsel 0x0f15fcff
+system.config.debugportoptions.switchtoswd.jtagtodormanttoswd
+SYStem.Option DUALPORT ON
+SYStem.MemAccess DAP
+Trace.DISable
+
+// start debugger
+;IF ((Data.Long(ad:0xE000EDF0)&(1<<19))!=0x0)
+;(
+;  DATA.SET AD:0xE000EDF0 %long (Data.Long(AD:0xE000EDF0)|(1<<1)|(1<<0)|(0xA05F<<16))
+;
+;  WHILE 0==(Data.Long(ad:0xE000EDF0)&(1<<17))
+;  (
+;  )
+;)
+
+SYStem.Up
+
+// attach cpu
+;SYStem.Mode Attach
+
+// load selected example program
+;Data.LOAD.ELF "../out/beken7231_bsp.elf" /RelPATH /PATH ../ /NoCODE
+;sYmbol.SourcePATH.SetBaseDir ../platforms/bk7231t/bk7231t_os
+
+;E:\workspace\fpga_bk7236\bk7236_verification\bk7236_spe\output\Objects\bk7236_spe.axf
+Data.LOAD.ELF "../build/bk7236_spe.axf"
+
+Register.Set PC 0
+Register.view /SpotLight
+
+; freertos configuration
+task.CONFIG ../debug/freertos/freertos.t32
+MENU.ReProgram  ../debug/freertos/freertos.men
+HELP.FILTER.Add rtosfreertos
+TASK.STacK.PATtern 0x5A
+
+; open some windows
+WinPOS 0% 0% 100% 50%
+List.auto
+WinPOS 0% 50% 50% 50%
+Frame /Locals /Caller
+WinPOS 50% 50% 50% 50%
+
+ENDDO
+
