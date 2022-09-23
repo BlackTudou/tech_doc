@@ -15,3 +15,4 @@ ryan_tech
    communications <communications/index>
    net <net/index>
    wifi <wifi/index>
+   video <video/index>
