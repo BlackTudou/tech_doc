@@ -53,3 +53,26 @@ YUV
 对于图像显示器来说，它是通过 RGB 模型来显示图像的，而在传输图像数据时又是使用 YUV 模型，这是因为 YUV 模型可以节省带宽。因此就需要采集图像时将 RGB 模型转换到 YUV 模型，显示时再将 YUV 模型转换为 RGB 模型。
 RGB 到 YUV 的转换，就是将图像所有像素点的 R、G、B 分量转换到 Y、U、V 分量。
 有如下公式进行转换：
+
+
+YUV的采样与格式
+=================
+
+YUV 是一种颜色编码方法，和它等同的还有 RGB 颜色编码方法。
+
+--------------
+RGB 颜色编码
+--------------
+
+Beken JPEG 调试记录
+=====================
+
+1. JPEG 模块是否工作正常主要关注：
+   - REG_0x7 byte_count_pfrm(bit[0:31]): the byte number of every frame，JPEG 正常工作起来后这个值会不停的变化
+   - REG_0x5 rx_fifo_data(bit[0:31]): jpeg encoder output data, JPEG 正常工作起来后这个值也会不停的变化
+
+2. JPEG 配置
+   - REG_0x4 eof_offset=0x20
+   - REG_0xC
+   - REG_0xD bit[1] video_byte_reverse=1
+   - REG_0xD bit[8:15] x_pixel=40，bit[24:31] y_pixel=60 (320*480)
