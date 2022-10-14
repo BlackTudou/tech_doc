@@ -11,6 +11,21 @@ video 涉及模块：
  - full-speed USB OTG (FS)
  - 8 MB SiP PSRAM
 
+基本的硬件模块：
+ - camera/sensor
+ - LCD
+ - sd_card/SD
+
+ - JPEG_ENC
+ - JPEG_DEC
+ - DMA
+ - DMA2D
+ - PSRAM
+ - H264
+ - YUV_BUF
+ - UVC/USB
+ - DVP
+
 .. toctree::
    :maxdepth: 2
    :numbered:
