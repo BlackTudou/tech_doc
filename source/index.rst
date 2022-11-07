@@ -16,3 +16,4 @@ ryan_tech
    net <net/index>
    wifi <wifi/index>
    video <video/index>
+   soc <soc/index>
