@@ -43,3 +43,13 @@ vector_table
     :align: center
     :alt: Images
     :figclass: align-center
+
+-------
+clock
+-------
+
+关于时钟，尽可能的配高一点，充分发挥性能，重点关注的时钟：
+ - CPU 时钟
+ - Flash 时钟
+
+根据datasheet可知，CPU0最高可跑120M

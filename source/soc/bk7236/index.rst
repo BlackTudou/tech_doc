@@ -9,3 +9,4 @@ BK7236
    Build <build/index>
    BSP <bsp/index>
    OS <os/index>
+   Peripherals <peripheral/index>
