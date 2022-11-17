@@ -12,6 +12,21 @@ memory directly by a dedicated DMA channel.
 The YUV signal format could be YUYV, UYVY, YYUV and UVYY. HSYNC and VSYNC level could be set
 independently.
 
+bk7236 芯片配置
+================
+
+---------
+时钟相关
+---------
+
+1. yuv, jpeg, h264 时钟都要打开，即 system 里面的 clk_en 都要设置为1
+2. 时钟选择：system_reg8[30] 选择320M/480M，system_reg[29:26] 配置分频系数
+
+     假设选择 480M，分频系数=3，那么
+       - H264的时钟就是480M/4=120M，
+       - JPEG,YUV 的时钟源是 H264 的时钟源再2分频，即JPEG,YUV 的时钟源为60M
+3. mclk 配置：在yuv_buf_reg0x4[11:10]配分频系数，在60M(步骤2配的yuv_buf的时钟源)的基础上在分频
+
 Q&A
 ======
 

@@ -53,3 +53,15 @@ clock
  - Flash 时钟
 
 根据datasheet可知，CPU0最高可跑120M
+
+链接脚本
+=========
+
+support os
+===========
+
+----------
+os_malloc
+----------
+
+heap4.c 里面指定 heap 的起始地址，结束地址

@@ -171,3 +171,14 @@ armino 添加 arch cm33
     add_dependencies(${COMPONENT_LIB} ${target}_linker_script)
 
     target_linker_script(${COMPONENT_LIB} INTERFACE "${CMAKE_CURRENT_BINARY_DIR}/${target}_out.ld")
+
+armino 配置
+===========
+
+1. 其中 project 下是特定项目的配置，例如，海尔/涂鸦使用了 armino，则他们就在 project 下定制他们自己的配置。 如果海尔一个项目 hai_iot 同时使用了 bk7256/bk7236，那么就通过 project/config/bk7256.config 与 project/config/bk7236.config 来区分，而通用的配置就放在 project/config/common.config 中，客户仅能修改 project 下的配置。。。当然，咱们也可以针对典型项目提供一组默认配置，如针对 audio 提供一组默认配置。
+
+2. middleware/soc/bk7236.defconfig 或者  properties/soc/bk7236.defconfig 是 sdk 级 soc 的配置差异化，即对于 beken 内部团队而言，用它来差异化不同 soc 的配置，为客户提供一组默认值。
+
+3. 组件级则是定义配置，并给出一个默认初始配置。一个配置项只有在组件中定义之后才变成可配置。
+
+4. Kconfig 主要定义组件级的编译配置，其他打包，flash 相关，校准等配置通常不放在 Kconfig 中，而是独立定义。
