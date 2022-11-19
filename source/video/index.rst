@@ -30,6 +30,6 @@ video 涉及模块：
    :maxdepth: 2
    :numbered:
 
+   camera <camera/index>
    JPEG <jpeg/index>
    LCD <lcd/index>
-   camera <camera/index>
