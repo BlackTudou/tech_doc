@@ -32,4 +32,5 @@ video 涉及模块：
 
    camera <camera/index>
    JPEG <jpeg/index>
+   yuv <yuv/index>
    LCD <lcd/index>

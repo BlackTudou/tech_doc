@@ -109,7 +109,7 @@ bk7236 芯片配置
 1. 输出 mclk 给到 camera, dvp_camera clock
 2. dvp_camera i2c_init
 3. dvp_camera get_chip_id
-4. dvp_camera open
+4. dvp_camera jpeg
 
 Q&A
 ======

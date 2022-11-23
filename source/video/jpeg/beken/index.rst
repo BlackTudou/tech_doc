@@ -56,3 +56,7 @@ byte_count_pfrm 一直是0
 -----------------------------------------
 
 JPEG 没工作起来
+ - jpeg_en 使能
+ - jpeg 分辨率跟摄像头分辨率配置一致
+ - camera init 后延时一段时间再去打开GPIO 的VSYNC,HSYNC
+ - clock_gate_bypass 打开
