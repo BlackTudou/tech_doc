@@ -22,7 +22,7 @@ https://www.usbzh.com/article/detail-214.html
     :alt: Images
     :figclass: align-center
 
-YUV_UV图
+YUV_UV 图
 
 .. figure:: _static/chroma.jpg
     :align: center
@@ -32,6 +32,19 @@ YUV_UV图
 
 YUV像素格式来源于RGB像素格式，通过公式运算，YUV 三分量可以还原出 RGB，YUV 转 RGB 的公式如下：
 
+.. code-block:: text
+
+    R = Y + 1.403V
+    G = Y - 0.344U - 0.714V
+    B = Y + 1.770U
+
+一般，将 RGB 和 YUV 的范围均限制在 [0, 255] 间，则有如下转换公式：
+
+.. code-block:: text
+
+   R = Y + 1.403(V - 128）
+   G = Y - 0.344(U - 128) - 0.714(V - 128)
+   B = Y + 1.770(U - 128)
 
 鉴于 RGB 格式已经见得见多，本文主要总结 YUV 常见的几种像素格式。
 
@@ -58,6 +71,25 @@ YUV 4:2:0 采样，每四个 Y 共用一组 UV 分量。
 ----------------
 YUV 4:4:4 采样
 ----------------
+
+YUV 4:4:4 采样，意味着 Y、U、V 三个分量的采样比例相同，因此在生成的图像里，每个像素的三个分量信息完整，都是 8 bit，也就是一个字节。
+
+其中，Y 分量用叉表示，UV 分量用圆圈表示。
+
+.. figure:: _static/yuv444.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+举个例子 ：
+
+.. code-block:: text
+
+    假如图像像素为：[Y0 U0 V0]、[Y1 U1 V1]、[Y2 U2 V2]、[Y3 U3 V3]
+    那么采样的码流为：Y0 U0 V0 Y1 U1 V1 Y2 U2 V2 Y3 U3 V3
+    最后映射出的像素点依旧为 [Y0 U0 V0]、[Y1 U1 V1]、[Y2 U2 V2]、[Y3 U3 V3]
+
+可以看到这种采样方式的图像和 RGB 颜色模型的图像大小是一样，并没有达到节省带宽的目的，当将 RGB 图像转换为 YUV 图像时，也是先转换为 YUV 4:4:4 采样的图像。
 
 ----------------
 YUV 4:2:2 采样
