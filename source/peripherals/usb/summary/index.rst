@@ -235,3 +235,49 @@ SOF 格式如下图所示：
 USB 波形示例
 ==============
 
+USB device 状态
+================
+
+.. figure:: ../_static/device_state.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+关于device state转化图，有如下说明：
+
+ - USB device 可自行设计内部的组态，但必须符合基本的状态要求
+ - Powered 状态由 Hub 决定，无关 device 是否自带电源
+ - 所有的 device 都必须支持 suspend
+ - Device 执行的速度(LS/FS/HS)在 Reset 完成后决定，且进入Default State，等候进行沟通的作业
+ - Device 预设的位址为0，完成配址和配置后，就可以开始工作
+
+High Speed Transceiver Circuit
+==================================
+
+TODO:
+ - Hub 在侦测到USB
+
+Standard USB descriptors
+==========================
+
+.. figure:: ../_static/setup_packet.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+我们在前面有提到，USB的传输都是以封包的格式来传递的，descriptors 的传递也是封包的一部分。
+
+当 Device 进入default state后，它会收到的第一个封包就是 ``SETUP`` 的封包，实际上在它完成address, configured等众多这些工作之前，
+它唯一会取到的就是从Control pipe 所来的封包，而这些封包几乎第一个 Token 就都是 setup 包。
+
+对于 setup，它带来的内容会是什么呢？
+
+如下图所示：
+
+.. figure:: ../_static/format_of_setup_data.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+它是一个 8 Byte 的结构，比较重要的是第1个byte(bmRequestType)，对于D6...5，在初期的沟通过程中，谈的都是standard的部分。
+
