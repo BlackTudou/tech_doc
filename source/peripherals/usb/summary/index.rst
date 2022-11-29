@@ -371,6 +371,18 @@ SET_CONFIGURATION
             - Each Interface includeing 0+ Endpoints(Control Endpoints是不包含在内的)
  - Setup packet 以 Address-0,Endpoint-0 为预设的沟通目标，直到完成新位址的指定
 
+例程解读
+===========
+
+device 插上 host 后，device 说收到的包如下：
+
+ 1. get_device_decriptor (0x80 0x06 0x00 0x01)
+ 2. SET_ADDRESS
+ 3. get_device_decriptor (以刚刚set_address的地址再来一遍)
+ 4. get_configuration_decriptor (0x02)
+ 5. get_string_decriptor (0x03)
+ 6. SET_CONFIGURATION (0x00 0x09) Address -> Configured
+ 
 Bus Enumeration
 =================
 
@@ -392,6 +404,29 @@ setup transection
 -------------------
 
 .. figure:: ../_static/setup_transaction.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+USB EndPoint
+=============
+
+什么是 EndPoint？
+
+以图示耳麦为例，插入Host后会有一个address，但是耳麦的左耳、右耳、麦克、音量调节，分别就是对应不同的EndPoint。
+
+EndPoint(1-15) 可以理解为收件者，封包最终会到达的地方。
+
+.. figure:: ../_static/mic_endpoint.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+--------------------------------
+Standard Endpoint Descriptor
+--------------------------------
+
+.. figure:: ../_static/standard_endpoint_descriptor.png
     :align: center
     :alt: Images
     :figclass: align-center
