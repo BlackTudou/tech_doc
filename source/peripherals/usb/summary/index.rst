@@ -22,6 +22,10 @@ https://hellocode.blog.csdn.net/article/details/112123884
 USB 基本说明
 =============
 
+ - Low Speed: 1.5M
+ - Full Speed: 12M
+ - High Speed: 480M
+
 USB 硬件信号
 ============
 
@@ -186,10 +190,15 @@ USB 的封包，它的格式只用4 bit来做区分。USB的封包分为4大类�
     :alt: Images
     :figclass: align-center
 
-一个标准的Transection，它是会follow:
+一个标准的 ``Transaction`` ，它是会follow:
  - 先发 token
  - 再发 data
  - 再做 Handshake
+
+.. figure:: ../_static/setup_transaction.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
 
 在某些状况下，发完Token之后，就可以直接收Handshake;
 也有一些状况是，只发Token、Data，不需要Handshake
@@ -223,6 +232,25 @@ SOF 格式如下图所示：
 
 以上就是一个完整的封包，而这个封包是每隔 Full speed 1ms/High speed 125us 就会收到一次
 
+.. figure:: ../_static/start_of_frame2.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+上图是 ``USB Packet Viewer`` 实际抓到的 SOF:
+ - 时间戳，每隔1ms收到一次，对应Full speed
+ - PID 不变，1010 0101B(0xa5)
+ - Frame number 不断加1
+
+--------------
+token format
+--------------
+
+.. figure:: ../_static/token_format.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
 ------
 总结
 ------
@@ -234,6 +262,8 @@ SOF 格式如下图所示：
 
 USB 波形示例
 ==============
+
+TODO
 
 USB device 状态
 ================
@@ -279,5 +309,89 @@ Standard USB descriptors
     :alt: Images
     :figclass: align-center
 
-它是一个 8 Byte 的结构，比较重要的是第1个byte(bmRequestType)，对于D6...5，在初期的沟通过程中，谈的都是standard的部分。
+它是一个 8 Byte 的结构，比较重要的是第1个byte(bmRequestType)，
+ - 对于D6...5，在初期的沟通过程中，谈的都是 **standard** 的部分。
+ - 这 8 byte 怎么解析呢？如下图所示
 
+.. figure:: ../_static/standard_device_requests.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+----------------
+GET_DESCRIPTOR
+----------------
+
+所有的 Device 在插入 Hub 之后，几乎第一个收到的都是 ``GET_DESCRIPTOR``
+ - wValue部分, H byte代表Descriptor Type，Low byte代表Descriptor Index
+
+.. figure:: ../_static/descriptor_types.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+对于 device 来说，收到的 **第一个setup封包** 通常是 ``get_device_decriptor`` (Descriptor Type=Device=1)，
+**get_device_decriptor 之后，device 就要提供一个descriptor给host。**
+
+.. figure:: ../_static/setup_transaction.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+data包：80 06 00 01 00 00 40 00，对应 上图 第三行(GET_DESCRIPTOR)那一行
+
+--------------
+SET_ADDRESS
+--------------
+
+通常device收到的第二个setup封包就是 ``SET_ADDRESS``，收到这个之后，device就拥有一个唯一的address，这个address要一直用到底，除非收到reset，那么这一切又要重来。
+
+Device address 信息放在 mValue 这一栏，虽然有两字节，但 **最大只能到127** 。
+
+-------------------
+SET_CONFIGURATION
+-------------------
+
+通常如果说收到了SET_CONFIGURATION，说明device已经configure完成了，USB device 就可以正常运作了。
+
+-----
+总结
+-----
+
+总结如下：
+
+ - USB Device 在收到Reset(D+,D-都拉到低电平超过10ms)后，应执行初始化、切换为default state，并等候setup封包
+ - USB Device 应提供的描述包含：
+
+    - 1个 Device Descriptor（High Speed再加1 Device-Qualifier desc）
+    - 1+ (至少1个)的 Configuration desc(基本跟耗电相关)
+
+        - Each Configuration include 1+(至少1个) Interfaces（Interface 跟class相关，用到什么 protocol），有了Interface之后，就要有class相关的descriptor
+
+            - Each Interface includeing 0+ Endpoints(Control Endpoints是不包含在内的)
+ - Setup packet 以 Address-0,Endpoint-0 为预设的沟通目标，直到完成新位址的指定
+
+Bus Enumeration
+=================
+
+USB协议定义了设备的6种状态，仅在枚举过程种，设备就经历了4个状态的迁移：
+ - 上电状态(Powered)
+ - 默认状态(Default)
+ - 地址状态(Address)
+ - 配置状态(Configured)（其他两种是连接状态和挂起状态（Suspend））
+
+当一个USB设备被接入USB集线器端口后，USB设备开始被枚举，过程大概如下：
+
+.. figure:: ../_static/bus_enum.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+-------------------
+setup transection
+-------------------
+
+.. figure:: ../_static/setup_transaction.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
