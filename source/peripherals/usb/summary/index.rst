@@ -251,6 +251,15 @@ token format
     :alt: Images
     :figclass: align-center
 
+--------------------
+data packet format
+--------------------
+
+.. figure:: ../_static/data_packet_format.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
 ------
 总结
 ------
@@ -382,7 +391,7 @@ device 插上 host 后，device 说收到的包如下：
  4. get_configuration_decriptor (0x02)
  5. get_string_decriptor (0x03)
  6. SET_CONFIGURATION (0x00 0x09) Address -> Configured
- 
+
 Bus Enumeration
 =================
 
@@ -399,6 +408,25 @@ USB协议定义了设备的6种状态，仅在枚举过程种，设备就经历�
     :alt: Images
     :figclass: align-center
 
+1. 获取最大数据包长度
+
+PC 向address 0发送USB协议规定的GET_DESCRIPTOR命令获取设备描述符，以取得缺省控制管道所支持的最大数据包长度，并在有限的时间内等待USB设备的响应。
+该长度包含在设备描述符的bMaxPacketSize0字段中，其地址偏移量为7，所以这时主机只需读取该描述符的前8个字节。
+
+.. note::
+    注意，主机一次只能枚举一个USB设备，所以同一时刻只能有一个USB设备使用缺省地址0。
+
+2. 主机分配一个新的地址给设备
+
+主机通过发送一个SET_ADDRESS请求来分配一个唯一的地址给设备。设备读取这个请求，返回一个确认，并保存新的地址。从此开始所有通信都使用这个新地址。
+
+3. 主机重新发送GET_DESCRIPTOR命令读取完整设备描述符
+
+主机向新地址重新发送GET_DESCRIPTOR命令，此次读取其设备描述符的全部字段，以了解该设备的总体信息，如VID，PID。
+
+4. 主机发送GET_DESCRIPTOR命令，获取完整配置信息
+主机向设备循环发送GET_DESCRIPTORn命令，要求USB设备回答，以读取全部配置信息。
+
 -------------------
 setup transection
 -------------------
@@ -411,13 +439,20 @@ setup transection
 USB EndPoint
 =============
 
-什么是 EndPoint？
+怎么理解 EndPoint？有了address，为什么还需要Endpoint？
 
 以图示耳麦为例，插入Host后会有一个address，但是耳麦的左耳、右耳、麦克、音量调节，分别就是对应不同的EndPoint。
 
 EndPoint(1-15) 可以理解为收件者，封包最终会到达的地方。
 
 .. figure:: ../_static/mic_endpoint.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+下图是 token 封包，可以看到里面带了4bit的 Endpoint(数值范围 0 1-15)。
+
+.. figure:: ../_static/token_format.png
     :align: center
     :alt: Images
     :figclass: align-center
@@ -430,3 +465,39 @@ Standard Endpoint Descriptor
     :align: center
     :alt: Images
     :figclass: align-center
+
+上图是 standard endpoint descriptor，一共是7 bytes。
+ - bLength 数值一定为 0x07
+ - bDescriptorType 数值一定是 0x05
+ - **bEndpointAddress**
+
+     - Bit[3:0] endpoint number, default endpoint=0, 其余 1-15
+     - Bit[6:4] 0
+     - Bit[7]   Direction 0=OUT 1=IN。除了endpoint 0 之外，其余1-15 endpoint 均为 **单一方向**。如果要双向，需要定义两个endpoint descriptor。
+
+ - **bmAttributes** If not an isochronous endpoint, BIT[5:2] are reserved and must be set to zero.
+
+     - Bit[1:0] Transfer Type，4种传输类型
+
+        - 00 = Control
+        - 01 = Isochronous (audio/video 通常会选择该type)
+        - 10 = Bulk
+        - 11 = Interrupt
+     - Bit[3:2] Synchronization Type
+
+        - 00 = No Synchronization
+        - 01 = Asynchronous
+        - 10 = Adaptive
+        - 11 = Synchronous
+     - Bit[5:4] Usage type
+
+        - 00 = Data endpoint
+        - 01 = Feedback endpoint
+        - 10 = Implicit feedback Data endpoint
+        - 11 = Reserved
+
+ - wMaxPacketSize [9:0] 告诉Host端，我现在指定的EndPoint，它的buffer有多大，数值最大是0-1023
+ - bInterval 跟Transfer Type相关，
+
+     - 如果Transfer Type=Isochronous or Interrupt，就必须指定Interval
+     - If Transfer Type=Control or Bulk，就不需要指定Interval
