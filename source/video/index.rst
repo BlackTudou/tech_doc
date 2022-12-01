@@ -34,3 +34,4 @@ video 涉及模块：
    JPEG <jpeg/index>
    yuv <yuv/index>
    LCD <lcd/index>
+   uvc <uvc/index>

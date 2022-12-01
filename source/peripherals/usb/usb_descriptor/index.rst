@@ -147,6 +147,31 @@ USB 接口描述符
         uint8_t iInterface;
     } __attribute__ ((packed))  MUSB_InterfaceDescriptor;
 
+USB 接口关联描述符
+==========================
+
+对于复合USB设备的接口描述符，可以在每个类（Class）要合并的接口描述符之前加一个接口关联描述符(Interface Association Descriptor，IAD),
+其作用就是把多个接口定义成一个类设备，即多个接口作用于一个设备。
+
+.. code-block:: c
+    :linenos:
+
+    typedef struct {
+        uint8_t bLength;            //长度为8
+        uint8_t bDescriptorType;    //USB_INTERFACE_ASSOCIATION_DESCRIPTOR_TYPE，值为0x0b
+        uint8_t bFirstInterface;    //第一个接口编号
+        uint8_t bInterfaceCount;    //接口总数量
+        uint8_t bFunctionClass;     //视频接口类代码CC_VIDEO，值0x0E
+        uint8_t bFunctionSubClass;  //视频子类接口代码 SC_VIDEO_INTERFACE_COLLECTION,值为0x03
+        uint8_t bFunctionProtocol;  //未用，必须为PC_PROTOCOL_UNDEFINED，值为0x00
+        uint8_t iFunction;          //字符串描述符索引
+    } __attribute__ ((packed))  MUSB_InterfaceAssociationDescriptor;
+
+.. figure:: ../_static/interface_asso_desc.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
 USB 端点描述符
 =================
 
@@ -162,3 +187,16 @@ USB 端点描述符
         uint16_t wMaxPacketSize;
         uint8_t bInterval;
     } __attribute__ ((packed))   MUSB_EndpointDescriptor;
+
+USB 字符串描述符
+=================
+
+.. code-block:: c
+    :linenos:
+
+    typedef struct
+    {
+        uint8_t bLength;            //描述符大小．由整个字符串的长度加上bLength和bDescriptorType的长度决定．
+        uint8_t bDescriptorType;    //接口描述符类型．固定为0x03．
+        uint16_t wData[1];
+    } __attribute__ ((packed))   MUSB_StringDescriptor;
