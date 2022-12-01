@@ -35,3 +35,23 @@ UVC摄像头设备拓扑结构
 从Sensor和另一个复合视频设备得到的数据流由IT和CT输入，经过SU选择送到PU处理，再由OT绑定到指定的USB端点。
 
 同时从上面的拓扑结构图可以看出，左半部分框架组成了UVC中的 **VC接口部分** ，右半部分框架组成了 **VS接口部分**。
+
+
+Payload Header Information
+============================
+
+摄像头数据包格式分析
+
+UVC数据传输时，每次USB传输，数据包中有一个负载数据头(Payload Header Information)，数据头后为有效的数据。其数据包格式见图：
+
+.. figure:: ../_static/data_format.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+Payload Header 最大为12个字节，包括固定的前2字节的负载数据头和10个字节的扩展负载数据头。
+
+.. figure:: ../_static/payload_header_format.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
