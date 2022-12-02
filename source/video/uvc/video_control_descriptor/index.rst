@@ -84,11 +84,22 @@ Input Terminal Descriptor
 Output Terminal Descriptor
 ===========================
 
-
 Camera Terminal Descriptor
 ============================
 
 Table 3-6
+
+Selector Unit Descriptor
+============================
+
+Processing Unit Descriptor
+============================
+
+Encoding Unit Descriptor
+=========================
+
+Extension Unit Descriptor
+=============================
 
 VC Interrupt Endpoint Descriptors
 ======================================
@@ -140,6 +151,11 @@ Class-specific VC Interrupt Endpoint Descriptor
  - bDescriptorType:描述符类型。 **CS_ENDPOINT** ，值为0x25
  - bDescriptorSubType：描述符子类型， **EP_INTERRUPT** ，值为0x03。
  - wMaxTransferSize：最大传输中断信息大小。
+
+.. figure:: ../_static/endpoint_subtypes.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
 
 --------------------------
 Endpoint Descriptors 示例

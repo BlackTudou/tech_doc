@@ -25,6 +25,24 @@ USB 描述符类型编号
     :alt: Images
     :figclass: align-center
 
+.. code-block:: c
+    :linenos:
+
+    /*
+     * Descriptor types
+     */
+    #define MUSB_DT_DEVICE              0x01
+    #define MUSB_DT_CONFIG              0x02
+    #define MUSB_DT_STRING              0x03
+    #define MUSB_DT_INTERFACE           0x04
+    #define MUSB_DT_ENDPOINT            0x05
+    #define MUSB_DT_DEVICE_QUALIFIER    0x06
+    #define MUSB_DT_OTHER_SPEED         0x07
+    #define MUSB_DT_INTERFACE_POWER     0x08
+    #define MUSB_DT_OTG                 0x09
+    #define MUSB_DT_BOS                 0x0F
+    #define MUSB_DT_HID_REPORT          0x22
+
 USB 设备描述符布局
 ==================
 
@@ -200,3 +218,19 @@ USB 字符串描述符
         uint8_t bDescriptorType;    //接口描述符类型．固定为0x03．
         uint16_t wData[1];
     } __attribute__ ((packed))   MUSB_StringDescriptor;
+
+BOS Descriptor
+==================
+
+二进制设备对象存储描述符
+
+.. code-block:: c
+    :linenos:
+
+    typedef struct
+    {
+        uint8_t   bLength;          //以字节为单位的描述符大小 (0x05)
+        uint8_t   bDescriptorType;  //BOS描述符类型，为BOS(0x0F)。
+        uint16_t  wTotalLength;     //此描述符及其所有子描述符的总长度。
+        uint8_t   bNumDeviceCaps;   //在BOS中独立的设备能力描述符(device capability descriptors)数量
+    } __attribute__ ((packed)) USB_BOS_DESCRIPTOR;

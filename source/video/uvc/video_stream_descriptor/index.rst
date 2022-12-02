@@ -11,8 +11,8 @@ Video Stream Interface Descriptor:
  - Class-Specific VS Interface Descriptors
 
     - Input Header Descriptor / Output Header Descriptor
-    - Format
-    - Frame
+    - Format Descriptor
+    - Frame Descriptor
 
 There is a single Input or Output Header descriptor for each VS interface.
 
@@ -30,9 +30,9 @@ Standard VS Interface Descriptor
         uint8_t bInterfaceNumber;
         uint8_t bAlternateSetting;
         uint8_t bNumEndpoints;
-        uint8_t bInterfaceClass;
-        uint8_t bInterfaceSubClass;
-        uint8_t bInterfaceProtocol;
+        uint8_t bInterfaceClass;    //CC_VIDEO
+        uint8_t bInterfaceSubClass; //SC_VIDEOSTREAMING
+        uint8_t bInterfaceProtocol; //PC_PROTOCOL_15
         uint8_t iInterface;
     } __attribute__ ((packed))  MUSB_InterfaceDescriptor;
 
@@ -58,8 +58,14 @@ Standard VS Interface Descriptor
 Class-Specific VS Interface Descriptors
 -----------------------------------------
 
+The class-specific VS interface descriptors consist of ``Input Header``, ``Output Header``, ``Format`` and
+``Frame`` descriptors.
+
 Class-specific VS Interface Input Header Descriptor
 -----------------------------------------------------
+
+The Input Header descriptor is used for VS interfaces that contain an IN endpoint for streaming
+video data.
 
 Table 3-14
 
@@ -104,5 +110,99 @@ Table 3-14
     :alt: Images
     :figclass: align-center
 
+.. figure:: ../_static/vs_interface_subtypes.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
 Class-specific VS Interface Output Header Descriptor
 ------------------------------------------------------
+
+The Output Header descriptor is used for VS interfaces that contain an OUT endpoint for
+streaming video data.
+
+.. code-block:: c
+    :linenos:
+
+    struct uvc_output_header_descriptor
+    {
+        uint8_t  bLength;
+        uint8_t  bDescriptorType;
+        uint8_t  bDescriptorSubType;
+        uint8_t  bNumFormats;
+        uint16_t wTotalLength;
+        uint8_t  bEndpointAddress;
+        uint8_t  bTerminalLink;
+        uint8_t  bControlSize;
+        uint8_t  bmaControls[];
+    } __attribute__((__packed__));
+
+Payload Format Descriptors
+-------------------------------
+
+***************************************
+H.264 Payload Video Format Descriptor
+***************************************
+
+TODO: refer to the documentation USB_Video_Payload_H264_1.5.pdf
+
+Table 3-1 H.264 Payload Video Format Descriptor
+
+Video Frame Descriptor
+---------------------------
+
+**************************************
+H.264 Payload Video Frame Descriptor
+**************************************
+
+TODO: refer to the documentation USB_Video_Payload_H264_1.5.pdf
+
+Table 3-2 H.264 Payload Video Frame Descriptor
+
+Still Image Frame Descriptor
+-------------------------------
+
+Color Matching Descriptor
+-----------------------------
+
+VS Endpoint Descriptors
+=======================================
+
+The video data endpoint can be implemented as either an isochronous or bulk endpoint.
+
+ - isochronous
+ - bulk
+
+----------------------------------------------------------
+Standard VS Isochronous Video Data Endpoint Descriptor
+----------------------------------------------------------
+
+.. code-block:: c
+    :linenos:
+
+    typedef struct
+    {
+        uint8_t bLength;            //设备描述符的字节数大小，为0x7
+        uint8_t bDescriptorType;    //描述符类型编号，为0x05
+        uint8_t bEndpointAddress;
+        uint8_t bmAttributes;       //0x05 Isochronous transfer type. Asynchronous synchronization type
+        uint16_t wMaxPacketSize;
+        uint8_t bInterval;
+    } __attribute__ ((packed))   MUSB_EndpointDescriptor;
+
+---------------------------------------------------
+Standard VS Bulk Video Data Endpoint Descriptor
+---------------------------------------------------
+
+.. code-block:: c
+    :linenos:
+
+    typedef struct
+    {
+        uint8_t bLength;            //设备描述符的字节数大小，为0x7
+        uint8_t bDescriptorType;    //描述符类型编号，为0x05
+        uint8_t bEndpointAddress;
+        uint8_t bmAttributes;       //D1..0: Transfer type (set to 10 = Bulk),All other bits are reserved.
+        uint16_t wMaxPacketSize;
+        uint8_t bInterval;
+    } __attribute__ ((packed))   MUSB_EndpointDescriptor;
