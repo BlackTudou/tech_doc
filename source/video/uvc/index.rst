@@ -7,4 +7,6 @@ uvc
 
     uvc_summary <uvc_summary/index>
     uvc_descriptor <uvc_descriptor/index>
+    video_control_descriptor <video_control_descriptor/index>
+    video_stream_descriptor <video_stream_descriptor/index>
     uvc_request <uvc_request/index>

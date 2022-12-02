@@ -5,10 +5,36 @@ uvc descriptor
 概述
 =======
 
+下图展示了一个UVC设备其描述符的整体布局。
+
+在该布述符布局中，首先第一项是 **设备描述符** ，其次是 **配置描述符** ，该设备拥有一个配置描述符。
+
+配置描述符后接一个 **接口关联描述符IAD** ,接口关联描述符IAD拥有：
+
+ - 一个 **视频控制接口VC**
+ - N个 **视频流接口**
+
+**视频控制接口** 包括：
+
+ - 视视频控制接口头描述符
+ - 输入终端描述符
+ - 处理单元描述符
+ - 编码单元描述符
+ - 输出终端描述符
+ - Interrupt EndPoint
+
+视频流接口中包括一个接口和与其对应的多个转换设置接口（Alternate Setting）。
+
+.. figure:: ../_static/camera_descriptor_layout.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
 .. figure:: ../_static/video_descriptor.png
     :align: center
     :alt: Images
     :figclass: align-center
+
 
 多个接口一起提供视频功能。这组接口称为视频接口集合。视频接口集合由接口关联描述符（IAD）描述。
 

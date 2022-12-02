@@ -3,7 +3,8 @@ usb
 =====
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
+   :caption: USB_2_0
 
    summary <summary/index>
    usb_descriptor <usb_descriptor/index>
