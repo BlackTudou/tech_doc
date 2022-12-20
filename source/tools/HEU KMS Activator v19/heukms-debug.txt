@@ -1,0 +1,59 @@
+>>>>>>>>>>>v19.6.3日志生成时间 2022/12/19  10:46:48  [KMS模式1,  OEM模式1,  Windows 10 Education Version 10.0.19041.2364,  X64]
+
+点击按钮“使用 KMS 激活 Windows”......
+
+【ActivateWindows.log】
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingProduct.ID="e0c42288-980c-4788-a014-c080d2e1926e")->Activate()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+
+【KMSSet.log】
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingService.Version="10.0.19041.2364")->SetKeyManagementServiceMachine()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingService.Version="10.0.19041.2364")->SetKeyManagementServicePort()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+执行(\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingService.Version="10.0.19041.2364")->SetVLActivationTypeEnabled()
+方法执行成功。
+外参数:
+instance of __PARAMETERS
+{
+};
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingProduct.ID="e0c42288-980c-4788-a014-c080d2e1926e")->ClearKeyManagementServiceMachine()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingProduct.ID="e0c42288-980c-4788-a014-c080d2e1926e")->ClearKeyManagementServicePort()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+Executing (\\LIUPENGCHENG001\root\cimv2:SoftwareLicensingService.Version="10.0.19041.2364")->RefreshLicenseStatus()
+Method execution successful.
+Out Parameters:
+instance of __PARAMETERS
+{
+};
+
+【MSInfo.log】
+ Windows Edition: Education 
+
+【WindowsOSVersion.log】
+Windows 10 Education,10.0.19041.2364 
+许可状态：激活成功 
+剩余时间：259200分钟(180天) 
+ 
+

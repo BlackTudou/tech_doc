@@ -23,31 +23,39 @@ CONFIG_USB_DEVICE
 设备作为host 或device 宏开关
 
 CONFIG_USB_MSD
+
 CONFIG_USB_HID
+
 CONFIG_USB_CCD
+
 CONFIG_USB_UVC
+
 使用USB的什么功能使用
 
 
 3、例子：usb打开   device模式   msd功能
-#
-# USB configuration
-#
-CONFIG_USB=y
 
-#
-# USB
-#
-# CONFIG_USB_HOST is not set
-CONFIG_USB_DEVICE=y
-# CONFIG_USB1_PORT is not set
-CONFIG_TASK_USB_PRIO=5
-CONFIG_USB_MSD=y
-# CONFIG_USB_HID is not set
-# CONFIG_USB_CCD is not set
-# CONFIG_USB_UVC is not set
-# CONFIG_USB_CHARGE is not set
-# end of USB configuration
+.. code-block:: text
+    :linenos:
+
+    #
+    # USB configuration
+    #
+    CONFIG_USB=y
+
+    #
+    # USB
+    #
+    # CONFIG_USB_HOST is not set
+    CONFIG_USB_DEVICE=y
+    # CONFIG_USB1_PORT is not set
+    CONFIG_TASK_USB_PRIO=5
+    CONFIG_USB_MSD=y
+    # CONFIG_USB_HID is not set
+    # CONFIG_USB_CCD is not set
+    # CONFIG_USB_UVC is not set
+    # CONFIG_USB_CHARGE is not set
+    # end of USB configuration
 
 ----------
 cli 测试

@@ -109,7 +109,7 @@ USB 设备描述符
     {
         uint8_t bLength;            //设备描述符的字节数大小，为0x12
         uint8_t bDescriptorType;    //描述符类型编号，为0x01
-        uint16_t bcdUSB;
+        uint16_t bcdUSB;            //USB版本号
         uint8_t bDeviceClass;
         uint8_t bDeviceSubClass;
         uint8_t bDeviceProtocol;
@@ -122,6 +122,12 @@ USB 设备描述符
         uint8_t iSerialNumber;
         uint8_t bNumConfigurations;
     } __attribute__ ((packed))  MUSB_DeviceDescriptor;
+
+设备描述符的含义：
+
+ - bLength : 描述符大小．固定为0x12．
+ - bDescriptorType : 设备描述符类型．固定为0x01．
+ - bcdUSB : USB 规范发布号．表示了本设备能适用于那种协议，如2.0=0200，1.1=0110等
 
 USB 配置描述符
 =================
@@ -234,3 +240,19 @@ BOS Descriptor
         uint16_t  wTotalLength;     //此描述符及其所有子描述符的总长度。
         uint8_t   bNumDeviceCaps;   //在BOS中独立的设备能力描述符(device capability descriptors)数量
     } __attribute__ ((packed)) USB_BOS_DESCRIPTOR;
+
+.. note::
+    需要 USB 2.1 版本 才会有这个描述符请求。
+
+Device Qualifier Descriptor
+==============================
+
+设备限定描述符(Device Qualifier Descriptor)说明了能进行高速操作的设备在其他速度时产生的变化信息。
+例如，如果设备当前在全速下操作，设备限定描述符返回它如何在高速运行的信息。
+
+如果设备既支持全速状态又支持高速状态，那么就必须含有设备限定描述符(Device Qualifier Descriptor)。
+设备限定描述符(Device Qualifier Descriptor)中含有当前没有使用的速度下这些字段的取值。
+
+.. note::
+
+    如果只能进行全速(full-speed)操作的设备(设备描述符的版本号等于0200H)接收到请求设备限定符的Get Descriptor请求，它必须用请求错误响应，回复STALL来响应。
