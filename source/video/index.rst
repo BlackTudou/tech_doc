@@ -30,6 +30,7 @@ video 涉及模块：
    :maxdepth: 2
    :numbered:
 
+   Video Basics <video_basics/index>
    camera <camera/index>
    JPEG <jpeg/index>
    yuv <yuv/index>

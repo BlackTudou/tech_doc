@@ -2,6 +2,17 @@
 video control descriptor
 =========================
 
+video control descriptor:
+
+ - Standard VC Interface Descriptor
+ - Class-specific VC Interface Header Descriptor
+ - VC Interface Output Terminal Descriptor
+ - VC Interface Extension Unit Descriptor
+ - VC Interface Input Terminal Descriptor
+ - VC Interface Processing Unit Descriptor
+ - Standard VC Interrupt **Endpoint Descriptor**
+ - Class-specific VC Interrupt **Endpoint Descriptor**
+
 Standard VC Interface Descriptor
 ====================================
 
@@ -62,7 +73,7 @@ Class-specific VC Interface Header Descriptor
  - bDescriptorType：描述符类型： **CS_INTERFACE** ，值为0x24
  - bDescriptorSubType：描述符子类型 **VC_HEADER** ，值为0x01
  - bcdUVC:uvc版本号。 UVC15: 0x0150；UVC10: 0x0100
- - wTotalLength：自身长度和后续控制单元和终端的描述符的数据长度。12+n
+ - wTotalLength：自身长度和后续控制单元和终端的描述符的数据长度。 **不包含Endpoint的长度**
  - dwClockFrequency：时钟频率，以HZ为单位。
  - bInCollection：视频流接口个数。
  - baInterfaceNr：第一个视频接流接口编号，有多如依次类推。
