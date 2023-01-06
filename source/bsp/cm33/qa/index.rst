@@ -5,6 +5,12 @@ Q&A
 问题集锦
 =========
 
+问题列表：
+
+ 1. 中断屏蔽如何解决嵌套问题
+ 2. 如何将NMI HardFault target 到 non-secure
+
+
 1. 中断屏蔽如何解决嵌套问题？
    先看下面的代码：
 
@@ -70,3 +76,10 @@ Q&A
  - 调用 func(), Line 3 屏蔽中断，返回 PRIMASK的值 = 1
  - Line 5，取消屏蔽中断，设置 PRIMASK = 1， **此时仍然处于屏蔽中断的状态**
  - func()函数执行完成，Line 16，取消屏蔽中断，设置 PRIMASK=0
+
+2. 如何将NMI HardFault target 到 non-secure？
+
+.. figure:: aircr.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
