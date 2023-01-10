@@ -501,3 +501,27 @@ Standard Endpoint Descriptor
 
      - 如果Transfer Type=Isochronous or Interrupt，就必须指定Interval
      - If Transfer Type=Control or Bulk，就不需要指定Interval
+
+Interface VS Endpoint
+==========================
+
+如果按照USB协议栈的层次划分：
+
+ - 一个Host可能有一个或者多个Device
+ - 一个Device可能有一个或者多个Interface
+ - 一个Interface可能有一个或者多个Endpoint
+
+首先端点跟信号线没任何关系，如果对应到TCP/IP协议栈的话，类似于TCP/UDP里的端口概念。
+
+Host（主机）连的是Device（设备），这一层是走物理连接的，也就是这个信号线。对应到网络协议栈，就是两台主机，或者服务器-客户机这种层次（USB线相当于网线）。
+
+Device（设备）下可能有多个Interfece（接口），从这开始都是逻辑概念了，一个Interface，可以理解为像两个联网的电脑上里不同的通信软件，比如有浏览器，有QQ，每个Interface模拟一个设备功能，
+比如集成了键盘和鼠标的USB设备，里面就是两个interface，一个是键盘，另一个是鼠标。Interface之间通常是隔离的，互相不干扰。
+
+每个Interface（接口）下面有一个或者多个Endpoint（端点），这也是逻辑概念，比如QQ要通信，可能开好几个端口，
+同样U盘要跟主机通信，要有控制信号和数据信号，这些都是不同的端点。端点是USB设备通信的基本单位，所有通信几乎都是从端点发起的。
+
+管道（PIPE）：一个USB管道是驱动程序的一个数据区缓冲与一个外设端点的连接，它代表了一种在两者之间移动数据的能力。一旦设备被配置，管道就存在了。
+
+pipe （管道）并不是一个实际存在的物理实质，只是逻辑上的一个东西，比如d12芯片有三个端点，那它在被配置完之后就会有三个管道和主机通信。
+在通信时并不需要指明哪个通道，只要把数据写入一个端点，那个端点自然会用它自己与主机之间的管道传输数据。

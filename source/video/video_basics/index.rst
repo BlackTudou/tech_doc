@@ -259,6 +259,43 @@ NV12(YUV420SP)
 
     NV12(YUV420SP)格式
 
+------------------------------------
+分离 I420 像素数据中的Y、U、V分量
+------------------------------------
+
+.. code-block:: c
+
+    int simplest_yuv420_split(char *url, int w, int h,int num)
+    {
+        FILE *fp=fopen(url,"rb+");
+        FILE *fp1=fopen("output_420_y.y","wb+");
+        FILE *fp2=fopen("output_420_u.y","wb+");
+        FILE *fp3=fopen("output_420_v.y","wb+");
+
+        unsigned char *pic=(unsigned char *)malloc(w*h*3/2);
+
+        for(int i=0;i<num;i++) {
+
+            fread(pic,1,w*h*3/2,fp);
+            //Y
+            fwrite(pic,1,w*h,fp1);
+            //U
+            fwrite(pic+w*h,1,w*h/4,fp2);
+            //V
+            fwrite(pic+w*h*5/4,1,w*h/4,fp3);
+        }
+
+        free(pic);
+        fclose(fp);
+        fclose(fp1);
+        fclose(fp2);
+        fclose(fp3);
+
+        return 0;
+    }
+
+如果视频帧的宽和高分别为w和h，那么一帧YUV420P像素数据一共占用w*h*3/2 Byte的数据。其中前w*h Byte存储Y，接着的w*h*1/4 Byte存储U，最后w*h*1/4 Byte存储V。
+
 RGB和YUV的转换
 ================
 
@@ -285,3 +322,24 @@ YUV->H264->YUV
     B=0
 
 此时只有G分量有值，所以为绿色。
+
+视频压缩原理
+================
+
+编码的目的是为了压缩，各种视频压缩算法都是为了让视频体积变得更小，减少对存储空间和传输带宽的占用。
+
+编码的核心是去冗余信息，通过一下几种冗余来达到压缩视屏的目的：
+
+ - 空间冗余
+ - 时间冗余
+ - 视觉冗余
+ - 编码冗余
+
+ffmpeg
+========
+
+ffmpeg实现mp4文件转h264文件
+
+.. code-block:: text
+
+    ffmpeg -i sample_640x360_1mb.mp4 -c h264 test.h264
