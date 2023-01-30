@@ -10,3 +10,4 @@ usb
    usb_descriptor <usb_descriptor/index>
    usb_standard_request <usb_standard_request/index>
    usage <usage/index>
+   cherry_usb <cherry_usb/index>
