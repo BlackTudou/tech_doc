@@ -13,3 +13,4 @@ uvc
     video_control_requests <video_control_requests/index>
     video_streaming_requests <video_streaming_requests/index>
     uvc_stream <uvc_stream/index>
+    uvc_debug_record <uvc_debug_record/index>
