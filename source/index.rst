@@ -33,4 +33,3 @@ ryan_tech
    wifi <wifi/index>
    video <video/index>
    linux <linux/index>
-   finance <finance/index>
