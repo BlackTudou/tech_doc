@@ -1,11 +1,10 @@
-========
-构建
-========
+================
+build system
+================
 
 .. toctree::
-   :maxdepth: 2
 
-   common <common/index>
-   cmake <cmake/index>
-   armino build <armino_build/index>
+   common/index.rst
+   cmake/index.rst
+   armino_build/index.rst
 

@@ -27,12 +27,10 @@ video 涉及模块：
  - DVP
 
 .. toctree::
-   :maxdepth: 2
-   :numbered:
 
-   Video Basics <video_basics/index>
-   camera <camera/index>
-   JPEG <jpeg/index>
-   yuv <yuv/index>
-   LCD <lcd/index>
-   uvc <uvc/index>
+   video_basics/index.rst
+   camera/index.rst
+   jpeg/index.rst
+   yuv/index.rst
+   lcd/index.rst
+   uvc/index.rst
