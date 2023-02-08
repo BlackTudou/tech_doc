@@ -1,9 +1,14 @@
-=========
-Linux
-=========
+==========
+Linux命令
+==========
 
-tar -jcvf test.gz.bz2 abd.txt bcd.txt
-tar -jxvf test.gz.bz2
+tar
+=====
+
+.. code-block:: shell
+
+    tar -jcvf test.gz.bz2 abd.txt bcd.txt
+    tar -jxvf test.gz.bz2
 
 .tar.gz 格式解压 tar -zxvf xx.tar.gz
 
