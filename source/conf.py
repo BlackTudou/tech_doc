@@ -7,8 +7,8 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'ryan_tech'
-copyright = '2023, liupengcheng'
-author = 'liupengcheng'
+copyright = '2023, ryan'
+author = 'ryan'
 release = 'v1.0'
 
 # -- General configuration ---------------------------------------------------
@@ -19,7 +19,7 @@ extensions = []
 templates_path = ['_templates']
 exclude_patterns = []
 
-
+language = 'zh_CN'
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
