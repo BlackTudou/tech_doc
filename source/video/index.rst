@@ -27,6 +27,7 @@ video 涉及模块：
  - DVP
 
 .. toctree::
+   :maxdepth: 2
 
    video_basics/index.rst
    camera/index.rst
