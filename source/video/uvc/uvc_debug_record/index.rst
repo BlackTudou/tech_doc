@@ -27,8 +27,9 @@ bk7236作为usb device，dvp camera 采集到的内容经过H264模块压缩后�
  - https://www.usbzh.com/article/forum-6.html
  - 几个QQ群：642693751(Cherry USB讨论群)，952873936(USB中文网技术交流群)
 
+-------------
 基本使用
-==========
+-------------
 
 1. 硬件连接：
 
@@ -103,5 +104,11 @@ bk7236作为usb device，dvp camera 采集到的内容经过H264模块压缩后�
  - 虚拟地址：去CRC后的地址，程序里面通过指针访问的地址，0x020017000
  - 物理地址：加了CRC后的地址，all.bin的地址，partiton 配的就是物理地址
 
+-------------------------
 uvc camera 描述符相关
-======================
+-------------------------
+
+因为用的协议栈是cherry_usb，相关内容可以查看 cherry_usb 章节。
+
+:doc:`/peripherals/usb/cherry_usb/index`
+
