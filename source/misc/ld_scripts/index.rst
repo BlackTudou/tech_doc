@@ -6,4 +6,5 @@
 
 .. toctree::
 
-
+    simplest_ld_scripts/index.rst
+    ld_commands/index.rst
