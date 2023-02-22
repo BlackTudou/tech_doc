@@ -39,6 +39,37 @@ yuv 调试记录
  - 对于H264，这80M会直接给到H264，H264模块的时钟为80M
  - 对于YUV/JPEG模块，会对80M进行2分频，即80M/2=40M
 
+3. 关于MCLK_DIV
+
+.. note::
+    MCLK_DIV 只会影响sensor的MCLK，而不会影响yuv,jpeg,h264等模块本身的工作时钟。
+
+YUV 中断
+===========
+
+YUV partial 功能
+=====================
+
+YUV partial 功能的使用：
+
+ - sensor 设置 640x480
+ - yuv 分辨率设置 640x480
+ - yuv partial 功能打开，partial 分辨率 设置为 480x272，此时yuv会自动往PSRAM写480x272的数据
+ - display 分辨率设置为 480x272
+
+.. code-block:: c
+
+    yuv_mode_config.x_pixel = 640 / 8;
+    yuv_mode_config.y_pixel = 480 / 8;
+
+    yuv_buf_partial_offset_config_t offset_config = {0};
+    offset_config.x_partial_offset_l = 1;
+    offset_config.x_partial_offset_r = 480;
+    offset_config.y_partial_offset_l = 1;
+    offset_config.y_partial_offset_r = 272;
+    bk_yuv_buf_init_partial_display(&offset_config);
+
+
 常见问题
 ==========
 
@@ -48,3 +79,8 @@ yuv 调试记录
  - 检查 MCLK，这是我们芯片供给camera的时钟，camera需要此时钟才能工作
 
 关于如何输出MCLK，以及输出MCLK的频率，可以参考 **时钟配置** 章节。
+
+2. 显示问题
+
+.. note::
+    需要注意的是，在yuv mode下，我们测出了yuv finish中断出现异常。绕过这个bug，需要将vsync下降沿中断当做yuv finish中断，并在每一帧中断里重新开关yuv mode
