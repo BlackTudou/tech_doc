@@ -44,8 +44,16 @@ yuv 调试记录
 .. note::
     MCLK_DIV 只会影响sensor的MCLK，而不会影响yuv,jpeg,h264等模块本身的工作时钟。
 
+4. yuv/jpeg 工作时钟 与 ``MCLK`` ``PCLK`` 之间的关系
+
+ - MLCK，PCLK之间的关系是由摄像头本身的寄存器配置决定的，比如GC0328C PCLK=MLCK，GC2145 PCLK=2MCLK。
+ - 如果不配置 ``AUXS`` 时钟，MCLK时钟则为 YUV/JPEG 模块分得，通过配置 MCLK_DIV
+ - YUV/JPEG 工作时钟需要满足 大于等于 2倍的PCLK，即 JPEG_CLK=YUV_CLK ≥ 2PCLK
+
 YUV 中断
 ===========
+
+TODO
 
 YUV partial 功能
 =====================
@@ -69,6 +77,56 @@ YUV partial 功能的使用：
     offset_config.y_partial_offset_r = 272;
     bk_yuv_buf_init_partial_display(&offset_config);
 
+YUV 720P 25FPS
+===================
+
+1. 如何看当前摄像头的帧率
+
+我们知道VSYNC是发一帧的信号，所以VSYNC的频率就是当前帧率。
+
+.. figure:: ../_static/vsync_frame.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+如上图所示，测得当前帧率为25
+
+2. 如何让摄像头工作在 720P 30fps
+
+首先摄像头本身要支持720P，以gc2145为例。
+
+.. figure:: ../_static/change_ppi.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+如图所示，在 media_cli.c 中直接修改即可。
+
+.. figure:: ../_static/change_fps.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+帧率在如图所示位置修改。
+
+3. PSRAM的时钟配置
+
+高分辨率下，对PSRAM的读写速度要求提高，需要将PSRAM的时钟从80M提到160M。
+
+0x9[5]	cksel_psram	0	R/W	0:clk_320M      1:clk_480M
+
+0x9[4]	ckdiv_psram	0	R/W	Frequency division : F/(1+N), N is the data of the reg value
+
+.. note::
+    需要注意的是硬件内部会自动对PSRAM时钟二分频。假设PSRAM时钟源为320M，分频系数为0，那么实际到PSRAM的时钟为160M。
+
+.. note::
+    当PSRAM时钟修改为160M时，对应的IO口负载修改为2，对应PMU寄存器如下图所示。
+
+.. figure:: ../_static/pmu_psram.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
 
 常见问题
 ==========
