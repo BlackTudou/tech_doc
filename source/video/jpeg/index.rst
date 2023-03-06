@@ -6,4 +6,4 @@ JPEG
    :maxdepth: 2
 
    base <base/index>
-   beken <beken/index>
+   jpeg_debug_record <jpeg_debug_record/index>

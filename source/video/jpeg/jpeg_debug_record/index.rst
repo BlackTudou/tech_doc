@@ -24,7 +24,7 @@ jpeg mode
 
 sensor 过来的数据，进行 JPEG 压缩，因此需要一个地方来处理数据，这个就是 ``em_base_addr`` 设置的地方，通常是 ``share_memory`` ，因为需要速度够快。
 
-压缩完成后的数据放在 ``jpeg_enc`` 的 ``rx_fifo_data`` 里面，因此读这个fifo就可以得到压缩处理后的数据。
+压缩完成后的数据放在 ``jpeg_enc`` 的 ``rx_fifo_data`` 里面，因此读这个fifo就可以得到压缩处理后的数据。通常通过DMA来搬。
 
 JPEG 模式
 ===========
