@@ -53,7 +53,10 @@ yuv 调试记录
 YUV 中断
 ===========
 
-TODO
+YUV 中断
+
+ - sensor resolution error int：分辨率错误中断，sensor的数据错误
+ - TODO
 
 YUV partial 功能
 =====================

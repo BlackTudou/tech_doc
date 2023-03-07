@@ -12,7 +12,7 @@ video 涉及模块：
  - 8 MB SiP PSRAM
 
 基本的硬件模块：
- - camera/sensor
+ - DVP camera/sensor
  - LCD
  - sd_card/SD
 
@@ -23,8 +23,7 @@ video 涉及模块：
  - PSRAM
  - H264
  - YUV_BUF
- - UVC/USB
- - DVP
+ - USB（UVC）
 
 .. toctree::
    :maxdepth: 2
@@ -35,3 +34,4 @@ video 涉及模块：
    yuv/index.rst
    lcd/index.rst
    uvc/index.rst
+   jpeg_dec/index.rst
