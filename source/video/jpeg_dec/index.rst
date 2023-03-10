@@ -5,7 +5,7 @@ JPEG 解码
 JPEG 压缩文件
 ================
 
-Jpeg压缩文件包括头文件和数据两部分。
+JPEG压缩文件包括 **头文件** 和 **数据** 两部分。
 
 头文件包含一些解码数据需要的信息。
 
@@ -70,6 +70,18 @@ JPEG_DEC的数据是硬件加速的，以block为单位，一个block大小是8x
 
 Block处理的顺序是yyuvyyuv……，从左到右， 从上到下。
 
-每个block硬件加速完后产生一个中断，在中断里要处理一些参数，比如每处理完一行block后，寄存器reg_mcu_y=reg_mcu_y + 8。
+每个block硬件加速完后产生一个中断，在中断里要处理一些参数，比如每处理完一行block后，寄存器 ``reg_mcu_y=reg_mcu_y + 8``。
 
 每处理完一组yyuv block后，寄存器reg_mcu_x = reg_mcu_x + 16。处理yy数据时reg_jpeg_dcvu =0，处理vu数据时reg_jpeg_dcvu =1.一帧图像处理完成后reg_mcu_y，reg_mcu_x，reg_jpeg_dcvu都要复位到0。
+
+VGA QVGA 720P 1080P
+========================
+
+VGA QVGA 720P 1080P 分别是什么意思？
+
+这些是视频分辨率的常见标准：
+
+ - VGA（Video Graphics Array）指的是640 x 480像素的分辨率，它是一种传统的计算机屏幕分辨率标准。
+ - QVGA（Quarter Video Graphics Array）指的是320 x 240像素的分辨率，它通常用于较小的设备，如移动电话和便携式游戏机。
+ - 720P指的是高清视频标准之一，分辨率为1280 x 720像素，其中“P”表示“逐行扫描”（progressive scan），也就是视频画面从上到下逐行扫描显示。
+ - 1080P也是高清视频标准之一，分辨率为1920 x 1080像素，同样，“P”表示“逐行扫描”，即视频画面从上到下逐行扫描显示。

@@ -97,6 +97,12 @@ YUV 422，一个pixel占2byte
 
 JPEG_RX_FIFP->share memory->psram
 
+7. JPEG_ENC 局部编码功能
+
+JPEG_ENC, YUV_BUF 里面的 partial 都需要设置
+
+.. code-block:: c
+
 调试中遇到的问题
 ===================
 
