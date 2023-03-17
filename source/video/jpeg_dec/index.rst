@@ -115,3 +115,21 @@ cli 测试命令
 
     我们的JPEG_DEC模块只支持YUV4:2:2的，不支持YUV4:2:0
 
+JPEG 工具推荐
+================
+
+JPEGsnoop
+
+.. figure:: _static/jpeg_422.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+JPEG 422
+
+.. figure:: _static/jpeg_420.png
+    :align: center
+    :alt: Images
+    :figclass: align-center
+
+JPEG 420
