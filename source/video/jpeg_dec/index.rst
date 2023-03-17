@@ -2,6 +2,19 @@
 JPEG 解码
 ============
 
+JPEG 格式详解
+================
+
+JPEG文件大体上可以分成两个部分：标记码(Tag)和压缩数据。
+
+标记码由两个字节构成，其前一个字节是固定值0xFF，后一个字节则根据不同意义有不同数值。在每个标记码之前还可以添加数目不限的无意义的0xFF填充，也就说连续的多个0xFF可以被理解为一个0xFF，并表示一个标记码的开始。而在一个完整的两字节的标记码后，就是该标记码对应的压缩数据流，记录了关于文件的诸种信息。
+
+常用的标记有SOI、APP0、DQT、SOF0、DHT、DRI、SOS、EOI。
+
+注意，SOI等都是标记的名称。在文件中，标记码是以标记代码形式出现。例如SOI的标记代码为0xFFD8，即在JPEG文件中的如果出现数据0xFFD8，则表示此处为一个SOI标记。
+
+https://blog.csdn.net/u010192735/article/details/120867340
+
 JPEG 压缩文件
 ================
 
@@ -85,3 +98,20 @@ VGA QVGA 720P 1080P 分别是什么意思？
  - QVGA（Quarter Video Graphics Array）指的是320 x 240像素的分辨率，它通常用于较小的设备，如移动电话和便携式游戏机。
  - 720P指的是高清视频标准之一，分辨率为1280 x 720像素，其中“P”表示“逐行扫描”（progressive scan），也就是视频画面从上到下逐行扫描显示。
  - 1080P也是高清视频标准之一，分辨率为1920 x 1080像素，同样，“P”表示“逐行扫描”，即视频画面从上到下逐行扫描显示。
+
+cli 测试命令
+===============
+
+从SD卡里面读取一张JPEG图，经过JPEG_DEC显示到LCD上。
+
+.. code:: text
+
+    fatfstest M 1 //挂载上fatfs文件系统
+    fatfstest S 1
+    lcd file_display positive_new.jpg 0
+    media lcd display positive_new.jpg
+
+.. note::
+
+    我们的JPEG_DEC模块只支持YUV4:2:2的，不支持YUV4:2:0
+

@@ -95,7 +95,7 @@ YUV 422，一个pixel占2byte
 
 编码出来的数据在 JPEG_RX_FIFO，psram 缓存已经编码完成的数据。都是通过DMA来完成数据的搬运。
 
-JPEG_RX_FIFP->share memory->psram
+JPEG_RX_FIFO->share memory->psram
 
 7. JPEG_ENC 局部编码功能
 
