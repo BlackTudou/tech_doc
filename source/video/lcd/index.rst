@@ -95,3 +95,19 @@ RGB 接口
 优点：屏幕便宜。4.3寸、7寸、10.1寸、10.4寸多是这种接口。
 
 缺点：需要MCU带显存，一般需要外挂SRAM或SDRAM。
+
+RGB屏的使用
+===============
+
+以 ``ST7282`` 为例，该屏分辨率为480x272.
+
+``ST7282`` 显示一张 1280x720 的图像。
+
+.. code-block:: c
+
+    bk_lcd_driver_init(LCD_12M);
+    bk_lcd_isr_register(RGB_OUTPUT_EOF, NULL);
+    bk_lcd_rgb_init(LCD_DEVICE_ST7282, PIXEL_1280, PIXEL_720， PIXEL_FMT_RGB565);
+    bk_lcd_set_partical_display(1, 1, 480, 1, 272);
+    lcd_driver_set_display_base_addr(0x60400000);
+    bk_lcd_rgb_display_en(1);

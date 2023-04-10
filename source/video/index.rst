@@ -35,3 +35,5 @@ video 涉及模块：
    lcd/index.rst
    uvc/index.rst
    jpeg_dec/index.rst
+   dma2d/index.rst
+   rotate/index.rst

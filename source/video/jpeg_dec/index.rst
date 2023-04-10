@@ -117,7 +117,7 @@ VGA QVGA 720P 1080P 分别是什么意思？
 cli 测试命令
 ===============
 
-从SD卡里面读取一张JPEG图，经过JPEG_DEC显示到LCD上。
+1. 从SD卡里面读取一张JPEG图，经过JPEG_DEC显示到LCD上。
 
 .. code:: text
 
@@ -129,6 +129,13 @@ cli 测试命令
 .. note::
 
     我们的JPEG_DEC模块只支持YUV4:2:2的，不支持YUV4:2:0
+
+2. 直接解码 USB摄像头 的MJPEG数据，显示到LCD屏幕上
+
+.. code:: text
+
+    media uvc open
+    media lcd open
 
 JPEG 工具推荐
 ================
