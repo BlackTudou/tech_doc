@@ -96,14 +96,16 @@ RGB 接口
 
 缺点：需要MCU带显存，一般需要外挂SRAM或SDRAM。
 
-RGB屏的使用
+RGB屏 使用示例
 ===============
 
 以 ``ST7282`` 为例，该屏分辨率为480x272.
 
-``ST7282`` 显示一张 1280x720 的图像。
+``ST7282`` 显示一张 1280x720 的RGB图像，图像数据放在 PSRAM 中(0x60400000)。
 
-.. code-block:: c
+.. code-block:: text
+
+    bk_psram_init();
 
     bk_lcd_driver_init(LCD_12M);
     bk_lcd_isr_register(RGB_OUTPUT_EOF, NULL);
@@ -111,3 +113,4 @@ RGB屏的使用
     bk_lcd_set_partical_display(1, 1, 480, 1, 272);
     lcd_driver_set_display_base_addr(0x60400000);
     bk_lcd_rgb_display_en(1);
+
