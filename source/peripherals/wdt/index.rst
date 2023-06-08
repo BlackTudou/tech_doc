@@ -47,6 +47,10 @@ wdt 触发，先将rst 信号给到 PMU，触发NMI, 可以在 NMI 进行一些�
 
   wdt 触发，先将rst 信号给到 PMU，因此在 NMI_Handler 里面关clock/关wdt（设置period=0）都关不掉wdt，该重启还是会重启。
 
+.. note::
+
+  该问题V4版本已修复，进 NMI_Handler 后是可以通过设置 period=0 关掉 wdt，这样就不会重启。
+
 wdt 计数时间配置
 ==================
 
