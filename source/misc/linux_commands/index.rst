@@ -14,6 +14,8 @@ tar
 
 .tar.bz2 格式解压 tar -jxvf xx.tar.bz2
 
+压缩 tar -vcjf myfile.tar.bz2 /home/robot/myfile/
+
 sed
 ====
 
@@ -22,3 +24,8 @@ sed
 .. code-block:: shell
 
     sed "s/^/&0x/g" h264.txt
+
+挂载
+=========
+
+mount -t vboxsf share /mnt/share

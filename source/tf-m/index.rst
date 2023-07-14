@@ -57,3 +57,6 @@ tfm_hal_platform.c -> tfm_s_2_ns_hook
 
 
 
+attest_asymmetric_s_interface_testsuite();
+
+

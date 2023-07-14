@@ -6,3 +6,4 @@
 
    jtag_debug.rst
    trace32/index.rst
+   ozone/index.rst
