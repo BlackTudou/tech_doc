@@ -11,3 +11,4 @@ usb
    usb_standard_request <usb_standard_request/index>
    usage <usage/index>
    cherry_usb <cherry_usb/index>
+   suspend_and_resume <suspend_and_resume/index>
