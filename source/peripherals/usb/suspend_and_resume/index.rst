@@ -100,6 +100,10 @@ Mentor 支持 L1 state
 LPM L1 suspend and resume 测试
 ================================
 
+参考 STM32CubeL4 LPM 例子：
+
+https://github.com/STMicroelectronics/STM32CubeL4/blob/master/Projects/32L476GDISCOVERY/Applications/USB_Device/HID_Standalone_LPM/readme.txt
+
 首先，无论进入 L1 state 还是 L2 state，都是由Host主动发起的，
 
 但是点击电脑的睡眠只会进入suspend mode（L2 state），而不会进入L1 state。
